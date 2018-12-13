@@ -26,14 +26,6 @@ server <- function(input, output) {
     bordered = TRUE
   )
   
-  
-  easy_budget <- reactiveVal()
-  easy_column <- reactiveVal() #c(xp_thresholds[input$party_level] * input$num_characters) )
-  medium_column <- reactiveVal()
-  hard_column <- reactiveVal()
-  deadly_column <- reactiveVal()
-  
-  
   output$budget_table <- renderTable(
     data.frame(
       number_of_monsters = c(
@@ -44,37 +36,45 @@ server <- function(input, output) {
         "11-14",
         "15+"
       ),
+      monster_xp_multiplier = c(
+        get_encounter_multiplier(1, input$num_characters),
+        get_encounter_multiplier(2, input$num_characters),
+        get_encounter_multiplier(3, input$num_characters),
+        get_encounter_multiplier(4, input$num_characters),
+        get_encounter_multiplier(5, input$num_characters),
+        get_encounter_multiplier(6, input$num_characters)
+      ),
       easy = c(
-        xp_thresholds$easy[input$party_level] * input$num_characters / get_encounter_multiplier(1),
-        xp_thresholds$easy[input$party_level] * input$num_characters / get_encounter_multiplier(2),
-        xp_thresholds$easy[input$party_level] * input$num_characters / get_encounter_multiplier(3),
-        xp_thresholds$easy[input$party_level] * input$num_characters / get_encounter_multiplier(7),
-        xp_thresholds$easy[input$party_level] * input$num_characters / get_encounter_multiplier(11),
-        xp_thresholds$easy[input$party_level] * input$num_characters / get_encounter_multiplier(15)
+        xp_thresholds$easy[input$party_level] * input$num_characters / get_encounter_multiplier(1, input$num_characters),
+        xp_thresholds$easy[input$party_level] * input$num_characters / get_encounter_multiplier(2, input$num_characters),
+        xp_thresholds$easy[input$party_level] * input$num_characters / get_encounter_multiplier(3, input$num_characters),
+        xp_thresholds$easy[input$party_level] * input$num_characters / get_encounter_multiplier(4, input$num_characters),
+        xp_thresholds$easy[input$party_level] * input$num_characters / get_encounter_multiplier(5, input$num_characters),
+        xp_thresholds$easy[input$party_level] * input$num_characters / get_encounter_multiplier(6, input$num_characters)
       ),
       medium = c(
-        xp_thresholds$medium[input$party_level] * input$num_characters / get_encounter_multiplier(1),
-        xp_thresholds$medium[input$party_level] * input$num_characters / get_encounter_multiplier(2),
-        xp_thresholds$medium[input$party_level] * input$num_characters / get_encounter_multiplier(3),
-        xp_thresholds$medium[input$party_level] * input$num_characters / get_encounter_multiplier(7),
-        xp_thresholds$medium[input$party_level] * input$num_characters / get_encounter_multiplier(11),
-        xp_thresholds$medium[input$party_level] * input$num_characters / get_encounter_multiplier(15)
+        xp_thresholds$medium[input$party_level] * input$num_characters / get_encounter_multiplier(1, input$num_characters),
+        xp_thresholds$medium[input$party_level] * input$num_characters / get_encounter_multiplier(2, input$num_characters),
+        xp_thresholds$medium[input$party_level] * input$num_characters / get_encounter_multiplier(3, input$num_characters),
+        xp_thresholds$medium[input$party_level] * input$num_characters / get_encounter_multiplier(4, input$num_characters),
+        xp_thresholds$medium[input$party_level] * input$num_characters / get_encounter_multiplier(5, input$num_characters),
+        xp_thresholds$medium[input$party_level] * input$num_characters / get_encounter_multiplier(6, input$num_characters)
       ),
       hard = c(
-        xp_thresholds$hard[input$party_level] * input$num_characters / get_encounter_multiplier(1),
-        xp_thresholds$hard[input$party_level] * input$num_characters / get_encounter_multiplier(2),
-        xp_thresholds$hard[input$party_level] * input$num_characters / get_encounter_multiplier(3),
-        xp_thresholds$hard[input$party_level] * input$num_characters / get_encounter_multiplier(7),
-        xp_thresholds$hard[input$party_level] * input$num_characters / get_encounter_multiplier(11),
-        xp_thresholds$hard[input$party_level] * input$num_characters / get_encounter_multiplier(15)
+        xp_thresholds$hard[input$party_level] * input$num_characters / get_encounter_multiplier(1, input$num_characters),
+        xp_thresholds$hard[input$party_level] * input$num_characters / get_encounter_multiplier(2, input$num_characters),
+        xp_thresholds$hard[input$party_level] * input$num_characters / get_encounter_multiplier(3, input$num_characters),
+        xp_thresholds$hard[input$party_level] * input$num_characters / get_encounter_multiplier(4, input$num_characters),
+        xp_thresholds$hard[input$party_level] * input$num_characters / get_encounter_multiplier(5, input$num_characters),
+        xp_thresholds$hard[input$party_level] * input$num_characters / get_encounter_multiplier(6, input$num_characters)
       ),
       deadly = c(
-        xp_thresholds$deadly[input$party_level] * input$num_characters / get_encounter_multiplier(1),
-        xp_thresholds$deadly[input$party_level] * input$num_characters / get_encounter_multiplier(2),
-        xp_thresholds$deadly[input$party_level] * input$num_characters / get_encounter_multiplier(3),
-        xp_thresholds$deadly[input$party_level] * input$num_characters / get_encounter_multiplier(7),
-        xp_thresholds$deadly[input$party_level] * input$num_characters / get_encounter_multiplier(11),
-        xp_thresholds$deadly[input$party_level] * input$num_characters / get_encounter_multiplier(15)
+        xp_thresholds$deadly[input$party_level] * input$num_characters / get_encounter_multiplier(1, input$num_characters),
+        xp_thresholds$deadly[input$party_level] * input$num_characters / get_encounter_multiplier(2, input$num_characters),
+        xp_thresholds$deadly[input$party_level] * input$num_characters / get_encounter_multiplier(3, input$num_characters),
+        xp_thresholds$deadly[input$party_level] * input$num_characters / get_encounter_multiplier(4, input$num_characters),
+        xp_thresholds$deadly[input$party_level] * input$num_characters / get_encounter_multiplier(5, input$num_characters),
+        xp_thresholds$deadly[input$party_level] * input$num_characters / get_encounter_multiplier(6, input$num_characters)
       )
     ),
     striped = TRUE,
